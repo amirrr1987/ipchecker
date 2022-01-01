@@ -7,6 +7,6 @@ const DATA = Axios.create({
   },
 });
 
-export const GetIPDetailsApi = (): object => {
-  return DATA.get(`http://ip-api.com/json/`);
+export const GetIPDetailsApi = async () => {
+  return await DATA.get(`http://ip-api.com/json/`);
 };
