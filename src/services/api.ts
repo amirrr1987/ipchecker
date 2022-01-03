@@ -8,5 +8,5 @@ const DATA = Axios.create({
 });
 
 export const GetIPDetailsApi = async () => {
-  return await DATA.get(`http://ip-api.com/json/`);
+  return await DATA.get(`http://ip-api.com/json/4.2.2.4?fields=status,message,continent,country,regionName,city,lat,lon,currency,isp,org,as,asname,reverse,mobile,proxy,hosting`);
 };
