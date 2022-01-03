@@ -33,11 +33,11 @@ export interface IpData {
 
 // Converts JSON strings to/from your types
 export class Convert {
-  public static toWelcome(json: string): Welcome {
+  public static toWelcome(json: string): IpData {
     return JSON.parse(json);
   }
 
-  public static welcomeToJson(value: Welcome): string {
+  public static welcomeToJson(value: IpData): string {
     return JSON.stringify(value);
   }
 }
