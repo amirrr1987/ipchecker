@@ -1,21 +1,35 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  {{ ip }}
 </template>
-
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+const ip = ref();
+const getIp = async () => {
+  try {
+    const res = await fetch("https://api.ipify.org?format=json");
+    const data = await res.json();
+    ip.value = data.ip;
+  } catch (error) {}
+};
+onMounted(() => {
+    getIp();
+  console.log(window.navigator);
+  
+});
+</script>
 <style>
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  background-color: hsl(261, 100%, 50%);
+  color: hsl(0, 0%, 100%);
+  line-height: 100vh;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 4rem;
 }
 </style>
