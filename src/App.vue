@@ -7,7 +7,7 @@
   </table>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, reactive } from "vue";
 
 export interface IPData {
   status: string;
@@ -27,7 +27,7 @@ export interface IPData {
 }
 
 const ip = ref("");
-const ipData = ref<IPData>({} as IPData);
+const ipData = reactive<IPData>({} as IPData);
 const getIp = async () => {
   try {
     const res = await fetch("https://api.ipify.org?format=json");
@@ -39,12 +39,9 @@ const getIp = async () => {
 };
 const getInfo = async (ip: string) => {
   try {
-    const corsAnywhereURL = 'https://cors-anywhere.herokuapp.com/';
-    const apiUrl = `http://ip-api.com/json/${ip}`;
-    const res = await fetch(`${corsAnywhereURL}${apiUrl}`);
+    const res = await fetch(`http://ip-api.com/json/${ip}`);
     const data = await res.json();
-    ipData.value = data;
-    console.log("🚀 ~ file: App.vue:18 ~ getInfo ~ data:", data);
+    Object.assign(ipData , data)
   } catch (error) {
     console.log(error);
   }
