@@ -39,7 +39,9 @@ const getIp = async () => {
 };
 const getInfo = async (ip: string) => {
   try {
-    const res = await fetch(`https://ip-api.com/json/${ip}`);
+    const corsAnywhereURL = 'https://cors-anywhere.herokuapp.com/';
+    const apiUrl = `http://ip-api.com/json/${ip}`;
+    const res = await fetch(`${corsAnywhereURL}${apiUrl}`);
     const data = await res.json();
     ipData.value = data;
     console.log("🚀 ~ file: App.vue:18 ~ getInfo ~ data:", data);
