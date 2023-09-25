@@ -1,1 +1,1 @@
-https://ipchechker-amirmaghami.netlify.app
+https://ipchecker-amirmaghami.netlify.app
