@@ -1,47 +1,57 @@
 <template>
-  <table>
-    <tr v-for="(item, key) in ipData">
+  <!-- <table>
+    <tr >
       <td>{{ key }}</td>
       <td>{{ item }}</td>
     </tr>
-  </table>
+  </table> -->
+  <div class="row">
+    <template  v-for="(item, key) in ipData">
+    <span class="key">{{ key }}</span>
+    <span class="item">{{ item }}</span>
+    </template>
+  </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, reactive } from "vue";
+import { onMounted, reactive } from "vue";
 
-export interface IPData {
-  status: string;
-  country: string;
-  countryCode: string;
-  region: string;
-  regionName: string;
-  city: string;
-  zip: string;
-  lat: number;
-  lon: number;
-  timezone: string;
-  isp: string;
-  org: string;
-  as: string;
-  query: string;
+export interface IP {
+    ip:                   string;
+    network:              string;
+    version:              string;
+    city:                 string;
+    region:               string;
+    region_code:          string;
+    country:              string;
+    country_name:         string;
+    country_code:         string;
+    country_code_iso3:    string;
+    country_capital:      string;
+    country_tld:          string;
+    continent_code:       string;
+    in_eu:                boolean;
+    postal:               string;
+    latitude:             number;
+    longitude:            number;
+    timezone:             string;
+    utc_offset:           string;
+    country_calling_code: string;
+    currency:             string;
+    currency_name:        string;
+    languages:            string;
+    country_area:         number;
+    country_population:   number;
+    asn:                  string;
+    org:                  string;
 }
 
-const ip = ref("");
-const ipData = reactive<IPData>({} as IPData);
+
+const ipData = reactive<IP>({} as IP);
 const getIp = async () => {
   try {
-    const res = await fetch("https://api.ipify.org?format=json");
+    const res = await fetch("https://ipapi.co/json");
     const data = await res.json();
-    ip.value = data.ip;
-  } catch (error) {
-    console.log(error);
-  }
-};
-const getInfo = async (ip: string) => {
-  try {
-    const res = await fetch(`http://ip-api.com/json/${ip}`);
-    const data = await res.json();
-    Object.assign(ipData , data)
+    Object.assign(ipData, data)
   } catch (error) {
     console.log(error);
   }
@@ -49,8 +59,6 @@ const getInfo = async (ip: string) => {
 
 onMounted(async () => {
   await getIp();
-  await getInfo(ip.value);
-  console.log(window.navigator);
 });
 </script>
 <style>
@@ -69,7 +77,17 @@ body {
   justify-content: center;
   align-items: center;
 }
-td {
+.box{
+
+}
+.row{
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 4rem;
+  row-gap: 0.6rem;
   text-align: left;
+}
+.key{
+  text-transform: capitalize;
 }
 </style>
