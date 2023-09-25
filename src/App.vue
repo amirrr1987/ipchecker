@@ -39,7 +39,7 @@ const getIp = async () => {
 };
 const getInfo = async (ip: string) => {
   try {
-    const res = await fetch(`http://ip-api.com/json/${ip}`);
+    const res = await fetch(`https://ip-api.com/json/${ip}`);
     const data = await res.json();
     ipData.value = data;
     console.log("🚀 ~ file: App.vue:18 ~ getInfo ~ data:", data);
