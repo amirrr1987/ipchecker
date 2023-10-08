@@ -1,65 +1,46 @@
 <template>
-  <!-- <table>
-    <tr >
-      <td>{{ key }}</td>
-      <td>{{ item }}</td>
-    </tr>
-  </table> -->
   <div class="row">
-    <template  v-for="(item, key) in ipData">
-    <span class="key">{{ key }}</span>
-    <span class="item">{{ item }}</span>
+    <template v-for="(item, key) in ipData">
+      <span class="key">{{ replace(key, "_", " ") }}</span>
+      <span class="item">{{ item }}</span>
     </template>
   </div>
 </template>
 <script setup lang="ts">
 import { onMounted, reactive } from "vue";
+import { assign, pick, replace } from "lodash-es";
+import { IIP } from "./models";
 
-export interface IP {
-    ip:                   string;
-    network:              string;
-    version:              string;
-    city:                 string;
-    region:               string;
-    region_code:          string;
-    country:              string;
-    country_name:         string;
-    country_code:         string;
-    country_code_iso3:    string;
-    country_capital:      string;
-    country_tld:          string;
-    continent_code:       string;
-    in_eu:                boolean;
-    postal:               string;
-    latitude:             number;
-    longitude:            number;
-    timezone:             string;
-    utc_offset:           string;
-    country_calling_code: string;
-    currency:             string;
-    currency_name:        string;
-    languages:            string;
-    country_area:         number;
-    country_population:   number;
-    asn:                  string;
-    org:                  string;
-}
-
-
-const ipData = reactive<IP>({} as IP);
+const ipData = reactive<IIP>({} as IIP);
 const getIp = async () => {
   try {
     const res = await fetch("https://ipapi.co/json");
     const data = await res.json();
-    Object.assign(ipData, data)
+    const list = pick(data, [
+      "ip",
+      "city",
+      "region",
+      "region_code",
+      "country",
+      "country_name",
+      "country_capital",
+      "country_tld",
+      "postal",
+      "latitude",
+      "longitude",
+      "timezone",
+      "country_calling_code",
+      "currency",
+      "currency_name",
+      "languages",
+    ]);
+    assign(ipData, list);
   } catch (error) {
     console.log(error);
   }
 };
 
-onMounted(async () => {
-  await getIp();
-});
+onMounted(async () => await getIp());
 </script>
 <style>
 body {
@@ -77,17 +58,15 @@ body {
   justify-content: center;
   align-items: center;
 }
-.box{
 
-}
-.row{
+.row {
   display: grid;
   grid-template-columns: max-content 1fr;
   column-gap: 4rem;
-  row-gap: 0.6rem;
+  row-gap: 1rem;
   text-align: left;
 }
-.key{
+.key {
   text-transform: capitalize;
 }
 </style>
